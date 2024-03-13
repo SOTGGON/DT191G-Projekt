@@ -29,7 +29,8 @@ namespace Blogg.Controllers
         public async Task<IActionResult> Index()
         {
             // Kontrollera if_context.Bloggs.is.null
-            if(_context.Bloggs == null) {
+            if (_context.Bloggs == null)
+            {
                 return NotFound();
             }
 
@@ -45,7 +46,8 @@ namespace Blogg.Controllers
             }
 
             // Kontrollera if_context.Bloggs.is.null
-            if(_context.Bloggs == null) {
+            if (_context.Bloggs == null)
+            {
                 return NotFound();
             }
 
@@ -75,7 +77,8 @@ namespace Blogg.Controllers
             if (ModelState.IsValid)
             {
                 // Kontrollera bilder
-                if(bloggModel.ImageFile != null) {
+                if (bloggModel.ImageFile != null)
+                {
                     // Generera unipue filnamn
                     string fileName = Path.GetFileNameWithoutExtension(bloggModel.ImageFile.FileName);
                     string extension = Path.GetExtension(bloggModel.ImageFile.FileName);
@@ -85,10 +88,13 @@ namespace Blogg.Controllers
                     string path = Path.Combine(wwwRootPath + "/images", fileName);
 
                     // Store in file system
-                    using(var fileStream = new FileStream(path, FileMode.Create)) {
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
                         await bloggModel.ImageFile.CopyToAsync(fileStream);
                     }
-                } else {
+                }
+                else
+                {
                     bloggModel.ImageName = "empty.jpg";
                 }
 
@@ -113,7 +119,8 @@ namespace Blogg.Controllers
             }
 
             // Kontrollera if_context.Bloggs.is.null
-            if(_context.Bloggs == null) {
+            if (_context.Bloggs == null)
+            {
                 return NotFound();
             }
 
@@ -130,7 +137,7 @@ namespace Blogg.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,ImageName,PublishDate")] BloggModel bloggModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,ImageFile,ImageName,PublishDate")] BloggModel bloggModel)
         {
             if (id != bloggModel.Id)
             {
@@ -141,7 +148,46 @@ namespace Blogg.Controllers
             {
                 try
                 {
-                    _context.Update(bloggModel);
+                    // 找到要编辑的博客对象
+                    var existingBloggModel = await _context.Bloggs.FindAsync(id);
+                    if (existingBloggModel == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // 如果存在新的图片文件，更新图片
+                    if (bloggModel.ImageFile != null)
+                    {
+                        // 删除原始图片文件
+                        if (!string.IsNullOrEmpty(existingBloggModel.ImageName) && System.IO.File.Exists(Path.Combine(wwwRootPath + "/images", existingBloggModel.ImageName)))
+                        {
+                            System.IO.File.Delete(Path.Combine(wwwRootPath + "/images", existingBloggModel.ImageName));
+                        }
+
+                        // 生成新的文件名并存储图片文件到文件系统
+                        string fileName = Path.GetFileNameWithoutExtension(bloggModel.ImageFile.FileName);
+                        string extension = Path.GetExtension(bloggModel.ImageFile.FileName);
+
+                        bloggModel.ImageName = fileName.Replace(" ", String.Empty) + DateTime.Now.ToString("yymmssfff") + extension;
+
+                        string path = Path.Combine(wwwRootPath + "/images", bloggModel.ImageName);
+
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await bloggModel.ImageFile.CopyToAsync(fileStream);
+                        }
+
+                        // 更新博客对象的图片名称
+                        existingBloggModel.ImageName = bloggModel.ImageName;
+                    }
+
+                    // 更新其他属性
+                    existingBloggModel.Title = bloggModel.Title;
+                    existingBloggModel.Content = bloggModel.Content;
+                    existingBloggModel.PublishDate = bloggModel.PublishDate;
+
+                    // 更新数据库中的记录
+                    _context.Update(existingBloggModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -160,6 +206,7 @@ namespace Blogg.Controllers
             return View(bloggModel);
         }
 
+
         // GET: Blogg/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -169,7 +216,8 @@ namespace Blogg.Controllers
             }
 
             // Kontrollera if_context.Bloggs.is.null
-            if(_context.Bloggs == null) {
+            if (_context.Bloggs == null)
+            {
                 return NotFound();
             }
 
@@ -189,13 +237,19 @@ namespace Blogg.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             // Kontrollera if_context.Bloggs.is.null
-            if(_context.Bloggs == null) {
+            if (_context.Bloggs == null)
+            {
                 return NotFound();
             }
 
             var bloggModel = await _context.Bloggs.FindAsync(id);
             if (bloggModel != null)
             {
+                if (!string.IsNullOrEmpty(bloggModel.ImageName) && System.IO.File.Exists(Path.Combine(wwwRootPath + "/images", bloggModel.ImageName)))
+                {
+                    System.IO.File.Delete(Path.Combine(wwwRootPath + "/images", bloggModel.ImageName));
+                }
+                
                 _context.Bloggs.Remove(bloggModel);
             }
 
@@ -206,7 +260,8 @@ namespace Blogg.Controllers
         private bool BloggModelExists(int id)
         {
             // Kontrollera if_context.Bloggs.is.null
-            if(_context.Bloggs == null) {
+            if (_context.Bloggs == null)
+            {
                 return false;
             }
 
