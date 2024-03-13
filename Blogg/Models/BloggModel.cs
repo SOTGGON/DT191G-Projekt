@@ -20,6 +20,7 @@ public class BloggModel
     [Display(Name = "Skapad av")]
     public string? CreateBy { get; set; }
 
+    [Display(Name = "Bild")]
     public string? ImageName { get; set; }
 
     [NotMapped]

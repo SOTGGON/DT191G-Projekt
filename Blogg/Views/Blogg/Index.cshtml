@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.CreateBy)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageName)
+                <a href="images/@Html.DisplayFor(modelItem => item.ImageName)">@Html.DisplayFor(modelItem => item.ImageName)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PublishDate)

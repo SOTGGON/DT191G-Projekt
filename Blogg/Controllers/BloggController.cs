@@ -15,10 +15,14 @@ namespace Blogg.Controllers
     public class BloggController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly string wwwRootPath;
 
-        public BloggController(ApplicationDbContext context)
+        public BloggController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
+            wwwRootPath = hostEnvironment.WebRootPath;
         }
 
         // GET: Blogg
@@ -66,14 +70,33 @@ namespace Blogg.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,ImageName,PublishDate")] BloggModel bloggModel)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,ImageFile")] BloggModel bloggModel)
         {
             if (ModelState.IsValid)
             {
+                // Kontrollera bilder
+                if(bloggModel.ImageFile != null) {
+                    // Generera unipue filnamn
+                    string fileName = Path.GetFileNameWithoutExtension(bloggModel.ImageFile.FileName);
+                    string extension = Path.GetExtension(bloggModel.ImageFile.FileName);
+
+                    bloggModel.ImageName = fileName = fileName.Replace(" ", String.Empty) + DateTime.Now.ToString("yymmssfff") + extension;
+
+                    string path = Path.Combine(wwwRootPath + "/images", fileName);
+
+                    // Store in file system
+                    using(var fileStream = new FileStream(path, FileMode.Create)) {
+                        await bloggModel.ImageFile.CopyToAsync(fileStream);
+                    }
+                } else {
+                    bloggModel.ImageName = "empty.jpg";
+                }
+
                 _context.Add(bloggModel);
 
                 // Lägga till skapre automatiskt
                 bloggModel.CreateBy = User.Identity?.Name ?? "Unknow";
+                bloggModel.PublishDate = DateTime.Now;
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
