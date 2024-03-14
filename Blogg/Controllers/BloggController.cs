@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Blogg.Controllers
 {
-    [Authorize]
     public class BloggController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -95,7 +94,7 @@ namespace Blogg.Controllers
                 }
                 else
                 {
-                    bloggModel.ImageName = "empty.jpg";
+                    bloggModel.ImageName = "";
                 }
 
                 _context.Add(bloggModel);

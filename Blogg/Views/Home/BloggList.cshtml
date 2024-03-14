@@ -1,0 +1,31 @@
+@model List<Blogg.Models.BloggModel>
+
+@{
+    ViewData["Title"] = "Blogglista";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Blogg</h1>
+</div>
+
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <article>
+            <h2>@item.Title</h2>
+            <p>@item.Content</p>
+            <p>Skapad av: @item.CreateBy</p>
+            <p>Datum: @item.PublishDate</p>
+            <!-- 如果有图片的话，可以在这里显示图片 -->
+            @if (!string.IsNullOrEmpty(item.ImageName))
+            {
+                <img src="~/images/@item.ImageName" alt="Image" />
+            }
+        </article>
+    }
+}
+else
+{
+    <p>No data available</p>
+}
