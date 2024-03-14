@@ -36,6 +36,27 @@ namespace Blogg.Controllers
             return View(await _context.Bloggs.ToListAsync());
         }
 
+        [Route("Blogg/Search")]
+        public async Task<IActionResult> Index(string? searchString)
+        {
+            ViewData["CurrentFilter"] = searchString;
+
+            var bloggs = from b in _context.Bloggs
+                        select b;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                string searchStringLower = searchString.ToLower(); // Konvertera söksträng till gemener
+
+                bloggs = bloggs.Where(b =>
+                    b.Title.ToLower().Contains(searchStringLower) ||  // Konvertera boknamn till gemener för jämförelse
+                    b.CreateBy.ToLower().Contains(searchStringLower)   // Konvertera boktyp till gemener för jämförelse
+                );
+            }
+
+            return View(await bloggs.ToListAsync());
+        }
+
         // GET: Blogg/Details/5
         public async Task<IActionResult> Details(int? id)
         {

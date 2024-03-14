@@ -8,6 +8,23 @@
     <h1 class="display-4">Blogg</h1>
 </div>
 
+<form asp-controller="Home" asp-action="BloggList" method="get">
+    <p>
+        Search:
+        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<!-- Lägg till-knapp för att visa inlägg av specifik författare -->
+@foreach (var author in Model.Select(item => item.CreateBy).Distinct())
+{
+    <form asp-controller="Home" asp-action="FilterByAuthor" method="get">
+        <input type="hidden" name="author" value="@author" />
+        <button type="submit">Show Posts by @author</button>
+    </form>
+}
+
 @if (Model != null)
 {
     @foreach (var item in Model)
@@ -17,7 +34,7 @@
             <p>@item.Content</p>
             <p>Skapad av: @item.CreateBy</p>
             <p>Datum: @item.PublishDate</p>
-            <!-- 如果有图片的话，可以在这里显示图片 -->
+            <!-- Kontrollera om det finns bilder-->
             @if (!string.IsNullOrEmpty(item.ImageName))
             {
                 <img src="~/images/@item.ImageName" alt="Image" />
