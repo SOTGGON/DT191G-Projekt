@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Blogg.Data;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Blogg.Controllers;
 
 public class HomeController : Controller
@@ -20,7 +21,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var latestBlogg = _context.Bloggs.OrderByDescending(b => b.PublishDate).FirstOrDefault();
+        return View(latestBlogg);
     }
 
     public IActionResult BloggList()
@@ -57,6 +59,11 @@ public class HomeController : Controller
                                     .ToListAsync();
 
         return View("BloggList", filteredBloggs);
+    }
+
+    public IActionResult Exhibits()
+    {
+        return View();
     }
 
     [Authorize]

@@ -5,7 +5,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Blogg</h1>
+    <h1 class="display-4">BloggLista</h1>
 </div>
 
 <form asp-controller="Home" asp-action="BloggList" method="get">
@@ -45,4 +45,53 @@
 else
 {
     <p>No data available</p>
+}
+
+@section styles {
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        input[type="submit"],
+        button {
+            background-color: #45a29e;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        input[type="text"] {
+            width: 200px;
+        }
+
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #3f8580;
+        }
+
+        /* BloggList部分的深景效果 */
+        article {
+            border-radius: 10px; /* 圆角 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 深景效果 */
+            padding: 20px; /* 内边距 */
+            margin-bottom: 20px; /* 底边距 */
+            background-color: #ffffff; /* 背景颜色 */
+        }
+
+        article:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 悬停时更加突出的深景效果 */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+    </style>
 }

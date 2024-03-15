@@ -1,8 +1,100 @@
-﻿@{
+﻿@model Blogg.Models.BloggModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="heroimage">
+        <img src="~/images/heroimage.jpeg" alt="">
+    </div>
+
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1 class="display-4">Välkommen till Artistry</h1>
+            <p>Vi är fast beslutna att visa upp verk av framstående konstnärer från hela världen och tillhandahålla en
+                plattform för konstälskare att uppskatta, lära sig och kommunicera.</p>
+            <p>Utforska våra utställningar och upptäck konstens skönhet.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <article class="exhibit">
+            <div>
+                <img src="~/images/exhibit.jpg" alt="">
+            </div>
+
+            <div>
+                <p>Utforska konstens oändliga möjligheter och gå med oss för att besöka den senaste utställningen! Denna
+                    utställning kommer att presentera fantastiska verk från toppkonstnärer runt om i världen, inklusive
+                    målningar, skulpturer, fotografi och andra konstformer. Genom dessa häpnadsväckande verk får du
+                    möjlighet att uppleva konstens unika charm och fördjupa dig i konstnärernas inre värld. Oavsett om
+                    du är konstälskare eller professionell samlare, får du inte missa denna fantastiska konstfest! Kom
+                    och upplev konstens magi med oss och påbörja en fantastisk resa in i själens djup!</p>
+            </div>
+        </article>
+
+       
+        <article class="blogg">
+            <div class="blog-post">
+                <h2>@Model.Title</h2>
+                <p>@Model.CreateBy - @Model.PublishDate.ToString("yyyy-MM-dd")</p>
+                <p>@Model.Content</p>
+            </div>
+            <div>
+                @if (!string.IsNullOrEmpty(Model.ImageName)) {
+                    <img src="~/images/@Model.ImageName" alt="Image" />
+                }
+            </div>
+        </article>
+        
+    </div>
 </div>
+
+@section styles {
+    <style>
+        .heroimage img {
+            height: 650px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        /* 公司风格样式 */
+        .jumbotron {
+            background-color: #f8f9fa;
+            padding: 80px 20px;
+            margin-bottom: 0;
+        }
+
+        .display-4 {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .exhibit,
+        .blogg {
+            display: flex;
+            margin: 1rem 0;
+        }
+
+        .exhibit>div,
+        .blogg>div {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .exhibit img {
+            width: 100%;
+        }
+    </style>
+}
