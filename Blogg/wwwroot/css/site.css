@@ -32,6 +32,12 @@ html {
   }
 }
 
+@media (max-width: 1300px) {
+  .author {
+    position: static !important;
+  }
+}
+
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
@@ -54,6 +60,7 @@ body {
   padding: 0;
 }
 
-h1 {
+h1,
+h2 {
   color: rgb(231, 231, 231);
 }

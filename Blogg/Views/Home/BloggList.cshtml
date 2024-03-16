@@ -15,6 +15,7 @@
 </form>
 
 <div class="author">
+    <p>Föfattarelista</p>
     <!-- Lägg till-knapp för att visa inlägg av specifik författare -->
     @foreach (var author in Model.Select(item => item.CreateBy).Distinct())
     {
@@ -104,7 +105,8 @@
         }
 
         input[type="text"] {
-            width: 200px;
+            border-radius: 5px;
+            width: auto;
         }
 
         input[type="submit"]:hover,
