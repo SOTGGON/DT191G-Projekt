@@ -1,6 +1,107 @@
 @{
-    ViewData["Title"] = "Exhibits";
+    ViewData["Title"] = "Utställningar";
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="text-center main">
+    <div class="jumbotron">
+        <div class="container text-center">
+            <p>Utforska konstens oändliga möjligheter och gå med oss ​​för att besöka de senaste utställningarna! Denna
+                utställning kommer att presentera underbara verk av toppkonstnärer från hela världen, inklusive
+                målningar, skulpturer, fotografi och andra konstformer.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <article class="exhibit">
+            <div>
+                <img src="~/images/exhibit1.jpg" alt="">
+            </div>
+
+            <div class="textzone">
+                <p>Fördjupa dig i målningens färgvärld och upptäck de fantastiska visuella upplevelser som konstnärer
+                    skapar med penseldrag och färg. Målningarna visar konstnärernas uttryck för liv, känslor och
+                    fantasi. Varje verk är en andlig kommunikation som tar dig genom olika tid, rum och situationer.</p>
+            </div>
+        </article>
+
+        <article class="exhibit">
+            <div>
+                <img src="~/images/exhibit2.jpeg" alt="">
+            </div>
+
+            <div class="textzone">
+                <p>Skulptur är kärnan i tredimensionell konst. Genom skulptur förvandlar konstnärer kreativitet till
+                    tredimensionella verk. Skulpturerna visar konstnärernas fantasi och skicklighet med deras mångfald
+                    av former, material och strukturer. Rör vid skulpturerna, känn texturerna och formerna på
+                    skulpturerna så kommer du att ledas in i en konstnärlig värld.</p>
+            </div>
+        </article>
+
+        <article class="exhibit">
+            <div>
+                <img src="~/images/exhibit3.jpg" alt="">
+            </div>
+
+            <div class="textzone">
+                <p>Konsten att fotografera registrerar livets fragment och känslor genom linsen, och visar fotografens
+                    unika observation och förståelse av världen. Varje foto är början på en berättelse som tar dig att
+                    uppskatta sederna i olika regioner, olika kulturer och olika epoker. Genom fotografering kommer du
+                    att upptäcka skönheten och sanningen i livet, samt fotografens unika tolkning av det hela.</p>
+            </div>
+        </article>
+    </div>
+</div>
+
+@section styles {
+    <style>
+        .main {
+            margin-bottom: 5rem;
+        }
+
+        .jumbotron {
+            background-color: rgb(231, 231, 231);
+            padding: 2rem 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .jumbotron p {
+            color: #333;
+            font-size: 16px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .exhibit {
+            display: flex;
+            margin: 1rem 0;
+            padding: 2rem 0;
+            color: whitesmoke;
+        }
+
+        .exhibit>div {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .exhibit {
+            border-bottom: 3px solid whitesmoke;
+        }
+
+        .exhibit img {
+            width: 100%;
+            max-height: 400px;
+        }
+
+        .textzone {
+            margin: 2rem;
+        }
+    </style>
+}

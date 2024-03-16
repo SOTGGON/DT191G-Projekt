@@ -1,35 +1,41 @@
 @model Blogg.Models.BloggModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detaljer";
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>BloggModel</h4>
+    <h4>@Html.DisplayFor(model => model.Title)</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Title):
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateBy)
+            @Html.DisplayNameFor(model => model.CreateBy):
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CreateBy)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageName)
+            @Html.DisplayNameFor(model => model.PublishDate):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PublishDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Content):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageName):
         </dt>
         <dd class="col-sm-10">
             @* @Html.DisplayFor(model => model.ImageName) *@
@@ -41,12 +47,6 @@
             {
                 <p>Ingen bild</p>
             }
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PublishDate)
         </dd>
     </dl>
 </div>

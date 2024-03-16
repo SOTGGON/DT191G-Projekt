@@ -39,10 +39,16 @@ namespace Blogg.Controllers
         [Route("Blogg/Search")]
         public async Task<IActionResult> Index(string? searchString)
         {
+            // Kontrollera if_context.Bloggs.is.null
+            if (_context.Bloggs == null)
+            {
+                return NotFound();
+            }
+
             ViewData["CurrentFilter"] = searchString;
 
             var bloggs = from b in _context.Bloggs
-                        select b;
+                         select b;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -159,6 +165,12 @@ namespace Blogg.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,ImageFile,ImageName,PublishDate")] BloggModel bloggModel)
         {
+            // Kontrollera if_context.Bloggs.is.null
+            if (_context.Bloggs == null)
+            {
+                return NotFound();
+            }
+            
             if (id != bloggModel.Id)
             {
                 return NotFound();
@@ -168,23 +180,23 @@ namespace Blogg.Controllers
             {
                 try
                 {
-                    // 找到要编辑的博客对象
+                    // Hitta bloggobjektet du vill redigera
                     var existingBloggModel = await _context.Bloggs.FindAsync(id);
                     if (existingBloggModel == null)
                     {
                         return NotFound();
                     }
 
-                    // 如果存在新的图片文件，更新图片
+                    // Om det finns en ny bildfil uppdaterar bilden
                     if (bloggModel.ImageFile != null)
                     {
-                        // 删除原始图片文件
+                        // Ta bort originalbildfiler
                         if (!string.IsNullOrEmpty(existingBloggModel.ImageName) && System.IO.File.Exists(Path.Combine(wwwRootPath + "/images", existingBloggModel.ImageName)))
                         {
                             System.IO.File.Delete(Path.Combine(wwwRootPath + "/images", existingBloggModel.ImageName));
                         }
 
-                        // 生成新的文件名并存储图片文件到文件系统
+                        // Skapa ett nytt filnamn och lagra bildfilen i filsystemet
                         string fileName = Path.GetFileNameWithoutExtension(bloggModel.ImageFile.FileName);
                         string extension = Path.GetExtension(bloggModel.ImageFile.FileName);
 
@@ -197,16 +209,16 @@ namespace Blogg.Controllers
                             await bloggModel.ImageFile.CopyToAsync(fileStream);
                         }
 
-                        // 更新博客对象的图片名称
+                        // Uppdatera bildnamn på bloggobjekt
                         existingBloggModel.ImageName = bloggModel.ImageName;
                     }
 
-                    // 更新其他属性
+                    // Uppdatera andra egenskaper
                     existingBloggModel.Title = bloggModel.Title;
                     existingBloggModel.Content = bloggModel.Content;
                     existingBloggModel.PublishDate = bloggModel.PublishDate;
 
-                    // 更新数据库中的记录
+                    // Uppdatera poster i databasen
                     _context.Update(existingBloggModel);
                     await _context.SaveChangesAsync();
                 }
@@ -269,7 +281,7 @@ namespace Blogg.Controllers
                 {
                     System.IO.File.Delete(Path.Combine(wwwRootPath + "/images", bloggModel.ImageName));
                 }
-                
+
                 _context.Bloggs.Remove(bloggModel);
             }
 

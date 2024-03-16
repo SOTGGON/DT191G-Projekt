@@ -46,8 +46,19 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
+                @* Visa 7 ord följt av ellips *@
                 <td>
-                    @Html.DisplayFor(modelItem => item.Content)
+                    @{
+                        string[] words = item.Content.Split(' ');
+                        if (words.Length > 7)
+                        {
+                            @Html.Raw(string.Join(" ", words.Take(7)) + "...")
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Content)
+                        }
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreateBy)

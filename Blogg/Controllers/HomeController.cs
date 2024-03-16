@@ -21,6 +21,12 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        // Kontrollera if_context.Bloggs.is.null
+        if (_context.Bloggs == null)
+        {
+            return NotFound();
+        }
+
         var latestBlogg = _context.Bloggs.OrderByDescending(b => b.PublishDate).FirstOrDefault();
         return View(latestBlogg);
     }
@@ -49,12 +55,24 @@ public class HomeController : Controller
 
     public IActionResult BloggList()
     {
+        // Kontrollera if_context.Bloggs.is.null
+        if (_context.Bloggs == null)
+        {
+            return NotFound();
+        }
+
         return View(_context.Bloggs.ToList());
     }
 
     [Route("BloggList/Search")]
     public async Task<IActionResult> BloggList(string? searchString)
     {
+        // Kontrollera if_context.Bloggs.is.null
+        if (_context.Bloggs == null)
+        {
+            return NotFound();
+        }
+        
         ViewData["CurrentFilter"] = searchString;
 
         var bloggs = from b in _context.Bloggs

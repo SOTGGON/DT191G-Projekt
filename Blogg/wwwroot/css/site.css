@@ -10,7 +10,7 @@ html {
 
 @media (max-width: 800px) {
   .heroimage img {
-    height: 50%;
+    max-height: 300px;
   }
 
   .exhibit,

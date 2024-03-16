@@ -4,69 +4,103 @@
     ViewData["Title"] = "Blogglista";
 }
 
-<div class="text-center">
-    <h1 class="display-4">BloggLista</h1>
-</div>
+<h1>@ViewData["Title"]</h1>
 
-<form asp-controller="Home" asp-action="BloggList" method="get">
+<form asp-controller="Home" asp-action="BloggList" method="get" class="search">
     <p>
-        Search:
+        Söka med föfattare eller blogg:
         <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
-        <input type="submit" value="Search" />
+        <input type="submit" value="Söka" />
     </p>
 </form>
 
-<!-- Lägg till-knapp för att visa inlägg av specifik författare -->
-@foreach (var author in Model.Select(item => item.CreateBy).Distinct())
-{
-    <form asp-controller="Home" asp-action="FilterByAuthor" method="get">
-        <input type="hidden" name="author" value="@author" />
-        <button type="submit">Show Posts by @author</button>
-    </form>
-}
-
-@if (Model != null)
-{
-    @foreach (var item in Model)
+<div class="author">
+    <!-- Lägg till-knapp för att visa inlägg av specifik författare -->
+    @foreach (var author in Model.Select(item => item.CreateBy).Distinct())
     {
-        <article>
-            <h2>@item.Title</h2>
-            <p>@item.Content</p>
-            <p>Skapad av: @item.CreateBy</p>
-            <p>Datum: @item.PublishDate</p>
-            <!-- Kontrollera om det finns bilder-->
-            <p>
-                @if (!string.IsNullOrEmpty(item.ImageName))
-                {
-                    @item.ImageName
-                }
-            </p>
-            <p><a asp-action="Details" asp-route-id="@item.Id">Details</a></p>
-        </article>
+        <form asp-controller="Home" asp-action="FilterByAuthor" method="get">
+            <input type="hidden" name="author" value="@author" />
+            <button type="submit">@author</button>
+        </form>
     }
-}
-else
-{
-    <p>No data available</p>
-}
+</div>
+
+<div class="main">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var item in Model)
+        {
+            <a asp-action="Details" asp-route-id="@item.Id">
+                <article>
+                    <h2>@item.Title</h2>
+
+                    <p>@item.CreateBy - @item.PublishDate</p>
+                    <p>@item.Content.Split('.')[0]...</p>
+                    <!-- Kontrollera om det finns bilder-->
+                    <p>
+                        @if (!string.IsNullOrEmpty(item.ImageName))
+                        {
+                            @item.ImageName
+                        }
+                        else
+                        {
+                        <p>Ingen bild</p>
+                        }
+                    </p>
+                </article>
+            </a>
+        }
+    }
+    else
+    {
+        <p>Inga relevanta inlägg hittades</p>
+    }
+</div>
 
 @section styles {
     <style>
+        .main {
+            margin-top: 2rem;
+            margin-bottom: 6rem;
+        }
+
+        .main a,
+        article p {
+            text-decoration: none;
+            color: #333; 
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        input[type="submit"],
+        .search {
+            font-size: 1.1rem;
+        }
+
+        p {
+            color: rgb(231, 231, 231);
+        }
+
+        .author {
+            position: fixed;
+            right: 3%;
+            background-color: #596968;
+            padding: 1rem 1rem 0 1rem;
+            border-radius: 10px;
+        }
+
         button {
-            background-color: #45a29e;
+            background-color: #f1f1f1;
             border: none;
-            color: white;
-            padding: 8px 16px;
+            color: rgb(32, 32, 32);
+            padding: 8px;
             text-decoration: none;
             cursor: pointer;
             border-radius: 4px;
+            margin-bottom: 1rem;
         }
 
         input[type="text"] {
@@ -83,17 +117,11 @@ else
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
-            background-color: #f1f1f1;
+            background-color: rgb(231, 231, 231);
         }
 
         article:hover {
             box-shadow: 0 8px 16px rgba(255, 255, 255, 0.7);
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
         }
     </style>
 }

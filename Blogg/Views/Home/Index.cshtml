@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center main">
     <div class="heroimage">
         <img src="~/images/heroimage.jpeg" alt="">
     </div>
@@ -31,6 +31,8 @@
                     möjlighet att uppleva konstens unika charm och fördjupa dig i konstnärernas inre värld. Oavsett om
                     du är konstälskare eller professionell samlare, får du inte missa denna fantastiska konstfest! Kom
                     och upplev konstens magi med oss och påbörja en fantastisk resa in i själens djup!</p>
+
+                <a asp-area="" asp-controller="Home" asp-action="Exhibits">Mer om Utställningar →</a>
             </div>
         </article>
 
@@ -40,6 +42,7 @@
                 <h2>@Model.Title</h2>
                 <p>@Model.CreateBy - @Model.PublishDate.ToString("yyyy-MM-dd")</p>
                 <p>@Model.Content</p>
+                <a asp-area="" asp-controller="Home" asp-action="BloggList">Mer om Bloggar →</a>
             </div>
             <div>
                 @if (!string.IsNullOrEmpty(Model.ImageName))
@@ -54,8 +57,12 @@
 
 @section styles {
     <style>
+        .main {
+            margin-bottom: 3rem;
+        }
+
         .heroimage img {
-            height: 650px;
+            max-height: 600px;
             width: 100%;
             object-fit: cover;
         }
@@ -108,7 +115,7 @@
             width: 100%;
         }
 
-        .blogg img{
+        .blogg img {
             max-height: 500px;
         }
 
