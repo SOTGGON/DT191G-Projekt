@@ -32,7 +32,15 @@
             @Html.DisplayNameFor(model => model.ImageName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageName)
+            @* @Html.DisplayFor(model => model.ImageName) *@
+            @if (!string.IsNullOrEmpty(Model.ImageName))
+            {
+                <img src="~/images/@Model.ImageName" alt="Image" />
+            }
+            else
+            {
+                <p>Ingen bild</p>
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PublishDate)

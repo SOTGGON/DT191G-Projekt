@@ -53,8 +53,17 @@
                     @Html.DisplayFor(modelItem => item.CreateBy)
                 </td>
                 <td>
-                    <a href="images/@Html.DisplayFor(modelItem => item.ImageName)">@Html.DisplayFor(modelItem =>
-                    item.ImageName)</a>
+                    @* <a href="images/@Html.DisplayFor(modelItem => item.ImageName)">@Html.DisplayFor(modelItem =>
+                item.ImageName)</a> *@
+
+                    @if (!string.IsNullOrEmpty(item.ImageName))
+                    {
+                        <a href="~/images/@item.ImageName">@Html.DisplayFor(modelItem => item.ImageName)</a>
+                    }
+                    else
+                    {
+                        <p>Ingen bild</p>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PublishDate)
@@ -76,6 +85,5 @@
             padding: 2rem 1.5rem;
             margin-bottom: 0;
         }
-
     </style>
 }
