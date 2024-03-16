@@ -24,6 +24,28 @@ public class HomeController : Controller
         var latestBlogg = _context.Bloggs.OrderByDescending(b => b.PublishDate).FirstOrDefault();
         return View(latestBlogg);
     }
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        // Kontrollera if_context.Bloggs.is.null
+        if (_context.Bloggs == null)
+        {
+            return NotFound();
+        }
+
+        var bloggModel = await _context.Bloggs
+            .FirstOrDefaultAsync(m => m.Id == id);
+        if (bloggModel == null)
+        {
+            return NotFound();
+        }
+
+        return View(bloggModel);
+    }
 
     public IActionResult BloggList()
     {

@@ -35,10 +35,13 @@
             <p>Skapad av: @item.CreateBy</p>
             <p>Datum: @item.PublishDate</p>
             <!-- Kontrollera om det finns bilder-->
-            @if (!string.IsNullOrEmpty(item.ImageName))
-            {
-                <img src="~/images/@item.ImageName" alt="Image" />
-            }
+            <p>
+                @if (!string.IsNullOrEmpty(item.ImageName))
+                {
+                    @item.ImageName
+                }
+            </p>
+            <p><a asp-action="Details" asp-route-id="@item.Id">Details</a></p>
         </article>
     }
 }
@@ -54,7 +57,7 @@ else
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         input[type="submit"],
         button {
             background-color: #45a29e;
@@ -75,17 +78,16 @@ else
             background-color: #3f8580;
         }
 
-        /* BloggList部分的深景效果 */
         article {
-            border-radius: 10px; /* 圆角 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 深景效果 */
-            padding: 20px; /* 内边距 */
-            margin-bottom: 20px; /* 底边距 */
-            background-color: #ffffff; /* 背景颜色 */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f1f1f1;
         }
 
         article:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 悬停时更加突出的深景效果 */
+            box-shadow: 0 8px 16px rgba(255, 255, 255, 0.7);
         }
 
         img {

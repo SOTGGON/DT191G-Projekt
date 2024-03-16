@@ -8,7 +8,35 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+@media (max-width: 800px) {
+  .heroimage img {
+    height: 50%;
+  }
+
+  .exhibit,
+  .blogg {
+    flex-direction: column;
+  }
+
+  .exhibit>div,
+  .blogg>div {
+    width: 100% !important;
+  }
+
+  .exhibit img {
+    height: auto;
+  }
+
+  .textzone{
+    margin: 2rem 0 !important;
+  }
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -19,4 +47,13 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: rgb(32, 32, 32);
+  color: #000000;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: rgb(231, 231, 231);
 }
