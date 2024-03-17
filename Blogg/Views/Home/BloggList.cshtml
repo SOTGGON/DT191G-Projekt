@@ -29,7 +29,7 @@
 <div class="main">
     @if (Model != null && Model.Any())
     {
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderBy(item => item.PublishDate).Reverse())
         {
             <a asp-action="Details" asp-route-id="@item.Id">
                 <article>
